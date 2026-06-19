@@ -6,17 +6,17 @@
 <title>現場管理システム ｜ 案件管理</title>
 <style>
 :root{
-  --bg:#eef0f3; --surface:#ffffff; --ink:#1e293b; --ink2:#475569; --muted:#94a3b8;
-  --line:#e2e8f0; --line2:#f1f5f9; --accent:#059669; --accent-bg:#ecfdf5; --accent-line:#a7f3d0;
-  --slate900:#0f172a; --slate800:#1e293b;
-  --r:10px; --font:"Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic","Meiryo",sans-serif;
+  --bg:#eef0f3;--surface:#fff;--ink:#1e293b;--ink2:#475569;--muted:#94a3b8;
+  --line:#e2e8f0;--line2:#f1f5f9;--accent:#059669;--accent-bg:#ecfdf5;--accent-line:#a7f3d0;
+  --slate900:#0f172a;--slate800:#1e293b;--field-label:#f3f4f6;
+  --r:10px;--font:"Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic","Meiryo",sans-serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
 button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:14px}
 .app{display:flex;min-height:100vh}
-/* sidebar */
 .sidebar{width:208px;background:var(--slate900);color:#cbd5e1;display:flex;flex-direction:column;flex-shrink:0}
 .brand{display:flex;align-items:center;gap:8px;padding:16px;border-bottom:1px solid #1e293b}
 .brand .logo{width:32px;height:32px;border-radius:8px;background:#fbbf24;display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:700}
@@ -30,16 +30,18 @@ button{font-family:inherit;cursor:pointer}
 .side-item .tag{margin-left:auto;font-size:9px;background:#334155;color:#94a3b8;padding:1px 6px;border-radius:8px}
 .side-foot{margin-top:auto;padding:12px;border-top:1px solid #1e293b;display:flex;align-items:center;gap:8px;font-size:12px;color:#94a3b8}
 .avatar{width:28px;height:28px;border-radius:50%;background:#334155;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px}
-/* main */
 .main{flex:1;display:flex;flex-direction:column;min-width:0}
 .topbar{background:var(--surface);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
 .topbar h1{font-size:16px;font-weight:700;margin:0}
+.crumb{font-size:12px;color:var(--muted)}
+.crumb b{color:var(--ink2);font-weight:500}
+.crumb a{color:var(--accent);cursor:pointer;text-decoration:none}
 .content{padding:20px;flex:1}
+.content.narrow{max-width:960px}
 /* tabs */
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:14px}
 .tab{padding:8px 16px;font-size:14px;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
-/* toolbar */
 .toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
 .search{display:flex;align-items:center;gap:8px;background:#f1f5f9;border-radius:8px;padding:7px 12px;width:260px}
 .search input{border:none;background:none;outline:none;font-size:14px;width:100%;font-family:inherit}
@@ -49,11 +51,13 @@ button{font-family:inherit;cursor:pointer}
 .btn-excel:hover{background:#d1fae5}
 .btn-primary{color:#fff;background:var(--slate800);border:none}
 .btn-primary:hover{background:#334155}
-.btn-ghost{color:var(--ink2);background:none}
+.btn-ghost{color:var(--ink2);background:var(--surface);border-color:var(--line)}
 .btn-ghost:hover{background:#f1f5f9}
+.btn-lg{font-size:14px;padding:9px 20px}
+.btn-save{color:#fff;background:var(--accent);border:none}
+.btn-save:hover{background:#047857}
 .btn:disabled{opacity:.4;cursor:not-allowed}
-/* card + table */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
 .tablewrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap}
 th{text-align:left;font-weight:500;color:var(--muted);font-size:12px;padding:9px 14px;border-bottom:1px solid var(--line);background:#fafbfc}
@@ -63,15 +67,10 @@ td.name{font-weight:600;color:var(--ink);max-width:280px;overflow:hidden;text-ov
 td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
 td.memo{max-width:200px;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
 .count{font-size:12px;color:var(--muted);padding:10px 14px}
-/* badge */
 .badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:20px;white-space:nowrap}
-.b-sky{background:#e0f2fe;color:#0369a1}
-.b-amber{background:#fef3c7;color:#b45309}
-.b-emerald{background:#d1fae5;color:#047857}
-.b-violet{background:#ede9fe;color:#6d28d9}
-.b-blue{background:#dbeafe;color:#1d4ed8}
-.b-slate{background:#e2e8f0;color:#475569}
-.b-rose{background:#ffe4e6;color:#be123c}
+.b-sky{background:#e0f2fe;color:#0369a1}.b-amber{background:#fef3c7;color:#b45309}.b-emerald{background:#d1fae5;color:#047857}
+.b-violet{background:#ede9fe;color:#6d28d9}.b-blue{background:#dbeafe;color:#1d4ed8}.b-slate{background:#e2e8f0;color:#475569}.b-rose{background:#ffe4e6;color:#be123c}
+.new-flag{margin-left:8px;font-size:10px;background:#dcfce7;color:#15803d;padding:1px 6px;border-radius:6px}
 /* modal */
 .overlay{position:fixed;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
 .modal{background:#fff;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.25);width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column}
@@ -86,31 +85,50 @@ td.memo{max-width:200px;overflow:hidden;text-overflow:ellipsis;color:var(--muted
 .facet h5{margin:0 0 6px;font-size:11px;font-weight:400;color:var(--muted)}
 .chk{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink2);padding:2px 0;cursor:pointer;user-select:none;white-space:nowrap}
 .chk input{width:15px;height:15px;accent-color:var(--accent);flex-shrink:0}
-.chk.trunc{max-width:160px}
-.chk.trunc span{overflow:hidden;text-overflow:ellipsis}
+.chk.trunc{max-width:160px}.chk.trunc span{overflow:hidden;text-overflow:ellipsis}
 .col-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 10px}
-.link{font-size:12px;color:var(--accent);background:none;border:none;padding:0}
-.link.gray{color:var(--muted)}
-.link:hover{text-decoration:underline}
+.link{font-size:12px;color:var(--accent);background:none;border:none;padding:0}.link.gray{color:var(--muted)}.link:hover{text-decoration:underline}
 .opts{display:flex;flex-wrap:wrap;align-items:flex-end;gap:24px}
 .seg{display:flex;gap:14px}
-.radio{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
-.radio input{accent-color:var(--accent)}
+.radio{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}.radio input{accent-color:var(--accent)}
 .modal-foot{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid var(--line)}
-.foot-info{font-size:12px;color:var(--ink2)}
-.foot-info b{color:var(--ink)}
+.foot-info{font-size:12px;color:var(--ink2)}.foot-info b{color:var(--ink)}
 .warn{color:#e11d48;margin-left:8px}
 .foot-btns{display:flex;gap:8px}
+/* form */
+.seg2{display:inline-flex;background:#f1f5f9;border-radius:8px;padding:3px;margin-bottom:16px}
+.seg2 button{border:none;background:none;padding:6px 18px;border-radius:6px;font-size:13px;color:var(--ink2);font-weight:500}
+.seg2 button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.card-h{padding:11px 16px;border-bottom:1px solid var(--line);font-size:13px;font-weight:600;color:var(--ink2);background:#fafbfc}
+.form{padding:4px 0}
+.frow{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid var(--line2)}
+.frow:last-child{border-bottom:none}
+.lab{background:var(--field-label);padding:12px 14px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:6px}
+.req{font-size:10px;background:#fecaca;color:#b91c1c;padding:1px 5px;border-radius:4px}
+.optf{font-size:10px;background:#e2e8f0;color:#64748b;padding:1px 5px;border-radius:4px}
+.fld{padding:9px 14px;display:flex;flex-direction:column;gap:6px;justify-content:center}
+.ctrl{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:7px;outline:none;background:#fff}
+.ctrl:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-bg)}
+textarea.ctrl{resize:vertical;min-height:64px}
+.half{max-width:280px}.short{max-width:160px}
+.range{display:flex;align-items:center;gap:8px}.range span{color:var(--muted);font-size:12px}
+.radios{display:flex;gap:14px;flex-wrap:wrap}
+.radio-b{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;padding:6px 10px;border:1px solid var(--line);border-radius:7px}
+.radio-b.sel{border-color:var(--accent);background:var(--accent-bg)}
+.radio-b input{accent-color:var(--accent)}
+.check{display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer}.check input{width:16px;height:16px;accent-color:var(--accent)}
+.hint{font-size:11px;color:var(--muted)}
+.suffix{display:flex;align-items:center;gap:8px}.suffix .u{font-size:12px;color:var(--muted);white-space:nowrap}
+.cal-note{font-size:12px;color:var(--ink2);padding:12px 16px;background:#f8fafc;border-top:1px dashed var(--line);display:flex;align-items:center;gap:8px}
+.foot-r{display:flex;justify-content:flex-end;gap:10px;padding-top:4px}
 </style>
 </head>
 <body>
 <div id="root"></div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.4/babel.min.js"></script>
-
 <script type="text/babel" data-presets="react">
 const { useState, useMemo } = React;
 
@@ -118,272 +136,267 @@ const { useState, useMemo } = React;
 const KOJI = [{"id": 1, "status": "営業中", "salesRep": "山崎 大介", "fieldRep": "", "client": "鹿島建設㈱ 中部支店", "name": "小山町(御殿場) 新東名", "kubun": "", "trade": "舗装工事", "amount": 0, "start": "", "end": "", "vendor": "", "memo": ""}, {"id": 2, "status": "営業中", "salesRep": "山崎 大介", "fieldRep": "", "client": "鹿島道路㈱ 中部支店", "name": "特定港湾施設整備工事 舗装工", "kubun": "", "trade": "舗装工事", "amount": 0, "start": "2026-05-01", "end": "2026-07-20", "vendor": "", "memo": ""}, {"id": 3, "status": "見積提出中", "salesRep": "鈴木 悠仁", "fieldRep": "", "client": "伊藤園ティーファクトリー株式会社", "name": "伊藤園ティーファクトリー工場増築工事", "kubun": "商社工事", "trade": "建築工事一式", "amount": 81800000, "start": "2025-10-01", "end": "2026-01-31", "vendor": "T・S home", "memo": "見積もり提出中。管理込みで下請けさんに見積もりを頂いています。"}, {"id": 4, "status": "施工中", "salesRep": "山崎 大介", "fieldRep": "", "client": "株式会社オサヨシ", "name": "田子重瀬名店客用駐車場拡張工事", "kubun": "商社工事", "trade": "外構工事", "amount": 19500000, "start": "", "end": "", "vendor": "", "memo": ""}, {"id": 5, "status": "施工予定", "salesRep": "山崎 大介", "fieldRep": "小林 大介", "client": "㈱小糸製作所", "name": "㈱小糸製作所駐車場造成工事", "kubun": "商社工事", "trade": "造成工事", "amount": 93500000, "start": "2026-04-01", "end": "2026-08-31", "vendor": "", "memo": "中川さんもつく。"}, {"id": 6, "status": "見積提出中", "salesRep": "山崎 大介", "fieldRep": "", "client": "㈱中村組", "name": "TWC造成工事", "kubun": "商社工事", "trade": "造成工事", "amount": 250000000, "start": "2026-11-02", "end": "", "vendor": "", "memo": ""}, {"id": 7, "status": "見積提出中", "salesRep": "山崎 大介", "fieldRep": "", "client": "㈱中村組", "name": "循環センター造成工事", "kubun": "商社工事", "trade": "造成工事", "amount": 150000000, "start": "2026-08-01", "end": "2026-08-31", "vendor": "", "memo": ""}, {"id": 8, "status": "営業中", "salesRep": "川井 大輔", "fieldRep": "", "client": "㈱熊谷組 名古屋支店", "name": "佐久間project", "kubun": "商社工事", "trade": "", "amount": 60000000, "start": "", "end": "", "vendor": "", "memo": ""}, {"id": 9, "status": "営業中", "salesRep": "川井 大輔", "fieldRep": "", "client": "シミックCMO㈱", "name": "納涼祭2026", "kubun": "商社工事", "trade": "その他工事", "amount": 2700000, "start": "2026-07-24", "end": "2026-07-24", "vendor": "", "memo": ""}, {"id": 10, "status": "営業中", "salesRep": "川井 大輔", "fieldRep": "", "client": "㈱熊谷組 名古屋支店", "name": "NEXUS佐久間発電所本体更新工事", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 60000000, "start": "2027-07-01", "end": "2032-12-01", "vendor": "", "memo": ""}, {"id": 11, "status": "施工中", "salesRep": "益田 桂志", "fieldRep": "", "client": "株式会社オサヨシ", "name": "㈱田子重 西焼津店駐車場改修工事", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 10000000, "start": "2026-02-01", "end": "", "vendor": "", "memo": ""}, {"id": 12, "status": "施工中", "salesRep": "山崎 大介", "fieldRep": "", "client": "大河原建設㈱", "name": "スーパーセンタートライアル浜松葵西店外構工事", "kubun": "商社工事", "trade": "外構工事", "amount": 74000000, "start": "2025-10-20", "end": "2026-04-30", "vendor": "", "memo": "担当 前嶋さん"}, {"id": 13, "status": "施工中", "salesRep": "山崎 大介", "fieldRep": "", "client": "㈱中村組", "name": "たびら眼科新築工事", "kubun": "商社工事", "trade": "外構工事", "amount": 30000000, "start": "2026-02-02", "end": "2026-06-30", "vendor": "", "memo": "担当 中川"}, {"id": 14, "status": "決定", "salesRep": "山崎 大介", "fieldRep": "", "client": "SEKIWA", "name": "岡部分譲造成工事", "kubun": "商社工事", "trade": "造成工事", "amount": 9500000, "start": "2026-03-02", "end": "", "vendor": "", "memo": ""}, {"id": 15, "status": "見積提出中", "salesRep": "川井 大輔", "fieldRep": "", "client": "㈱提坂工務店", "name": "島田市稲荷造成工事", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 16500000, "start": "", "end": "", "vendor": "", "memo": ""}, {"id": 16, "status": "施工中", "salesRep": "川井 大輔", "fieldRep": "", "client": "東亜道路工業㈱ 静岡営業所", "name": "令和7年度 R1清水立体庵原地区舗装工事", "kubun": "土木公共工事", "trade": "公共下請工事", "amount": 30000000, "start": "2026-02-02", "end": "", "vendor": "", "memo": ""}, {"id": 17, "status": "見積提出中", "salesRep": "川井 大輔", "fieldRep": "", "client": "㈲日邦開発", "name": "島田市大田原様邸解体工事", "kubun": "商社工事", "trade": "解体工事", "amount": 2400000, "start": "", "end": "", "vendor": "", "memo": ""}, {"id": 18, "status": "見積提出中", "salesRep": "川井 大輔", "fieldRep": "", "client": "㈱A＆C不動産販売", "name": "藤枝市潮地区法面対策工事", "kubun": "商社工事", "trade": "その他工事", "amount": 60000000, "start": "2026-04-01", "end": "2026-06-30", "vendor": "", "memo": ""}, {"id": 19, "status": "営業中", "salesRep": "山崎 大介", "fieldRep": "", "client": "南部建設㈱", "name": "天竜川町916宅地造成工事", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 15000000, "start": "2026-08-03", "end": "2026-10-30", "vendor": "", "memo": ""}, {"id": 20, "status": "営業中", "salesRep": "山崎 大介", "fieldRep": "", "client": "南部建設㈱", "name": "天竜川町855宅地造成工事", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 35000000, "start": "2026-08-03", "end": "2026-11-27", "vendor": "", "memo": ""}, {"id": 21, "status": "営業中", "salesRep": "山崎 大介", "fieldRep": "", "client": "南部建設㈱", "name": "西大谷住宅療養支援センター新築工事", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 38000000, "start": "2026-07-01", "end": "2026-11-27", "vendor": "", "memo": ""}, {"id": 22, "status": "営業中", "salesRep": "山崎 大介", "fieldRep": "", "client": "南部建設㈱", "name": "掛川市葛川地内解体工事", "kubun": "商社工事", "trade": "解体工事", "amount": 12000000, "start": "2026-09-01", "end": "2026-10-30", "vendor": "", "memo": ""}, {"id": 23, "status": "営業中", "salesRep": "山崎 大介", "fieldRep": "", "client": "南部建設㈱", "name": "モクサン人工大理石加工工場新築工事", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 25000000, "start": "2026-09-01", "end": "2026-12-25", "vendor": "", "memo": ""}, {"id": 24, "status": "見積提出中", "salesRep": "川井 大輔", "fieldRep": "川井 大輔", "client": "平井工業㈱", "name": "焼津市藤守新築造成工事", "kubun": "商社工事", "trade": "造成工事", "amount": 321000000, "start": "2026-10-01", "end": "2027-06-01", "vendor": "", "memo": ""}, {"id": 25, "status": "施工中", "salesRep": "川井 大輔", "fieldRep": "小林 大介", "client": "（株）原崎鉄工所", "name": "㈱原崎鉄工所様倉庫新築工事", "kubun": "商社工事", "trade": "その他工事", "amount": 12200000, "start": "2026-02-16", "end": "2026-04-30", "vendor": "", "memo": ""}, {"id": 26, "status": "見積提出中", "salesRep": "川井 大輔", "fieldRep": "小林 徹也", "client": "TOA㈱", "name": "TOA株式会社 1階床補修工事", "kubun": "商社工事", "trade": "その他工事", "amount": 3900000, "start": "", "end": "", "vendor": "", "memo": ""}, {"id": 27, "status": "決定", "salesRep": "山崎 大介", "fieldRep": "", "client": "大河原建設㈱", "name": "㈱関本管工新工場建設計画", "kubun": "商社工事", "trade": "造成工事", "amount": 35000000, "start": "2026-08-01", "end": "", "vendor": "", "memo": ""}, {"id": 28, "status": "営業中", "salesRep": "川井 大輔", "fieldRep": "", "client": "㈱ガイアート", "name": "静岡県食肉センター3期工事", "kubun": "商社工事", "trade": "外構工事", "amount": 0, "start": "", "end": "", "vendor": "", "memo": ""}, {"id": 29, "status": "施工中", "salesRep": "益田 桂志", "fieldRep": "小林 徹也", "client": "株式会社オサヨシ", "name": "田子重吉田神戸店客用駐車場増設工事", "kubun": "商社工事", "trade": "造成工事", "amount": 50000000, "start": "2026-01-30", "end": "2026-04-30", "vendor": "", "memo": ""}, {"id": 30, "status": "施工中", "salesRep": "益田 桂志", "fieldRep": "", "client": "コスモ建設㈱", "name": "(仮称)ホンダカーズ中央静岡 藤枝築地店 新築工事", "kubun": "商社工事", "trade": "外構工事", "amount": 41000000, "start": "2026-01-26", "end": "2026-09-30", "vendor": "", "memo": ""}, {"id": 31, "status": "施工中", "salesRep": "益田 桂志", "fieldRep": "", "client": "コスモ建設㈱", "name": "(仮称)ホンダカーズ中央静岡 藤枝築地店 新築工事", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 10700000, "start": "2026-01-26", "end": "2026-09-30", "vendor": "", "memo": ""}, {"id": 32, "status": "営業中", "salesRep": "山崎 大介", "fieldRep": "", "client": "大河原建設㈱", "name": "昭和冷凍新築工事", "kubun": "商社工事", "trade": "造成工事", "amount": 210000000, "start": "2026-10-01", "end": "2026-10-31", "vendor": "", "memo": ""}, {"id": 33, "status": "見積提出中", "salesRep": "山崎 大介", "fieldRep": "", "client": "大河原建設㈱", "name": "焼津相川･西島project", "kubun": "商社工事", "trade": "外構工事", "amount": 1250000000, "start": "2026-11-02", "end": "", "vendor": "", "memo": ""}, {"id": 34, "status": "見積提出中", "salesRep": "山崎 大介", "fieldRep": "", "client": "大河原建設㈱", "name": "㈱共栄製作所本社工場増築事業", "kubun": "商社工事", "trade": "外構工事", "amount": 240000000, "start": "", "end": "", "vendor": "", "memo": ""}, {"id": 35, "status": "見積提出中", "salesRep": "川井 大輔", "fieldRep": "", "client": "㈱マルマコーポレーション", "name": "下小杉工場新築工事 造成他工事", "kubun": "商社工事", "trade": "造成工事", "amount": 180000000, "start": "2026-09-01", "end": "2027-05-01", "vendor": "", "memo": "建築業者は未定。造成工事の計画から相談にのる。全体の予算に合うように計画し、見合う建築業者を一緒に決定する予定。\n盛土を帆高建材の改良土で提案することや残土の流用で予算を落とす。\n建築業者の候補は、大河原建設、五光建設の2社"}, {"id": 36, "status": "営業中", "salesRep": "川井 大輔", "fieldRep": "", "client": "東亜道路工業㈱ 中部支店", "name": "清水港防護壁復旧工事", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 25000000, "start": "2025-08-21", "end": "2025-09-04", "vendor": "", "memo": "7月14日より保険会社で査定中。発注者は、保険会社になる可能性高い。"}, {"id": 37, "status": "営業中", "salesRep": "益田 桂志", "fieldRep": "小林 徹也", "client": "南部建設㈱", "name": "トヨタL&F新築工事", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 50000000, "start": "2026-09-01", "end": "", "vendor": "", "memo": ""}, {"id": 38, "status": "施工中", "salesRep": "山崎 大介", "fieldRep": "", "client": "鹿島道路㈱ 関東支店", "name": "首都圏中央連絡自動車道坂東常総舗装工事", "kubun": "土木民間工事", "trade": "舗装工事", "amount": 60000000, "start": "2025-08-18", "end": "", "vendor": "", "memo": "監督付(山城さん)"}, {"id": 39, "status": "見積提出中", "salesRep": "山崎 大介", "fieldRep": "", "client": "中村建設㈱", "name": "山陽ﾊﾟｯｹｰｼﾞｼｽﾃﾑ㈱工場新築計画", "kubun": "商社工事", "trade": "造成工事", "amount": 70000000, "start": "", "end": "", "vendor": "", "memo": ""}, {"id": 40, "status": "施工予定", "salesRep": "山崎 大介", "fieldRep": "", "client": "日本発電㈱", "name": "水力発電工事(福島)", "kubun": "土木民間工事", "trade": "その他工事", "amount": 200000000, "start": "2026-04-01", "end": "", "vendor": "", "memo": "監督付(又平さん？)"}, {"id": 41, "status": "施工予定", "salesRep": "山崎 大介", "fieldRep": "", "client": "鹿島建設㈱ 中部支店", "name": "ﾍﾟﾊﾟｰﾚｯﾄ2期新築工事", "kubun": "土木民間工事", "trade": "外構工事", "amount": 75000000, "start": "2026-02-16", "end": "", "vendor": "", "memo": "監督付"}, {"id": 42, "status": "営業中", "salesRep": "山崎 大介", "fieldRep": "", "client": "日本発電㈱", "name": "水力発電工事(西伊豆)", "kubun": "商社工事", "trade": "とび土木コンクリート工事", "amount": 200000000, "start": "2026-04-01", "end": "", "vendor": "", "memo": ""}, {"id": 43, "status": "見積提出中", "salesRep": "川井 大輔", "fieldRep": "", "client": "平井工業㈱", "name": "藤枝市岡部町産廃施設外構工事", "kubun": "商社工事", "trade": "外構工事", "amount": 200000000, "start": "2026-08-03", "end": "", "vendor": "", "memo": ""}, {"id": 44, "status": "見積提出中", "salesRep": "山崎 大介", "fieldRep": "", "client": "南部建設㈱", "name": "掛川市水垂造成工事", "kubun": "商社工事", "trade": "造成工事", "amount": 900000000, "start": "2027-09-01", "end": "", "vendor": "", "memo": ""}, {"id": 45, "status": "施工中", "salesRep": "山崎 大介", "fieldRep": "", "client": "日本道路㈱ 九州支店", "name": "馬毛島駐機場舗装工事(その2)", "kubun": "商社工事", "trade": "舗装工事", "amount": 214000000, "start": "2022-06-09", "end": "2026-03-31", "vendor": "", "memo": ""}];
 const ZAIRYO = [{"id": 1, "status": "営業中", "salesRep": "川井 大輔", "fieldRep": "", "client": "三谷商事株式会社 中部支社", "name": "ペパーレット新工場新築工事生コン", "trade": "生コンクリート", "amount": 120000000, "start": "", "end": "", "supplier": "㈱黒﨑", "memo": ""}, {"id": 2, "status": "営業中", "salesRep": "川井 大輔", "fieldRep": "", "client": "㈱黒﨑", "name": "生コン骨材", "trade": "砕石", "amount": 200000000, "start": "2026-04-01", "end": "2027-03-31", "supplier": "", "memo": ""}, {"id": 3, "status": "納入中", "salesRep": "川井 大輔", "fieldRep": "", "client": "東亜道路工業㈱ 静岡営業所", "name": "令和7年度1号清水立体庵原地区舗装工事", "trade": "コンクリート二次製品", "amount": 10000000, "start": "2026-02-02", "end": "2026-07-31", "supplier": "", "memo": ""}, {"id": 4, "status": "営業中", "salesRep": "川井 大輔", "fieldRep": "", "client": "鈴与商事㈱ 静岡建材課", "name": "令和7年度1号藤枝BP原トンネル工事", "trade": "生コンクリート", "amount": 300000000, "start": "2026-08-01", "end": "2027-08-31", "supplier": "", "memo": ""}, {"id": 5, "status": "見積提出中", "salesRep": "益田 桂志", "fieldRep": "", "client": "㈱松下組", "name": "エコポリス工業用地造成工事", "trade": "生コンクリート", "amount": 100000000, "start": "", "end": "", "supplier": "", "memo": ""}, {"id": 6, "status": "納入中", "salesRep": "益田 桂志", "fieldRep": "", "client": "コスモ建設㈱", "name": "(仮称)ホンダカーズ中央静岡 藤枝築地店 新築工事", "trade": "生コンクリート", "amount": 13000000, "start": "", "end": "", "supplier": "", "memo": ""}, {"id": 7, "status": "納入中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設㈱", "name": "(仮称)ホンダカーズ中央静岡 藤枝築地店 新築工事", "trade": "コンクリート二次製品", "amount": 4000000, "start": "", "end": "", "supplier": "", "memo": ""}, {"id": 8, "status": "見積提出中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設㈱", "name": "㈱富士製作所 新工場 新築工事", "trade": "コンクリート二次製品", "amount": 7500000, "start": "", "end": "", "supplier": "", "memo": "その他 ｸﾞﾚｰﾁﾝｸﾞ,耐震性貯水槽他を見積(2025.12.16提出)"}, {"id": 9, "status": "納入中", "salesRep": "益田 桂志", "fieldRep": "", "client": "ヒダ㈱掛川支店", "name": "㈱シーテック/駿遠変電所", "trade": "生コンクリート", "amount": 10000000, "start": "2025-12-01", "end": "", "supplier": "", "memo": ""}, {"id": 10, "status": "納入中", "salesRep": "益田 桂志", "fieldRep": "", "client": "㈱アクト建設", "name": "ドラッグコスモス島田商高前店新築工事（建築）", "trade": "生コンクリート", "amount": 14000000, "start": "2025-11-04", "end": "", "supplier": "", "memo": "生コン700m3"}, {"id": 11, "status": "見積提出中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設㈱", "name": "古田工業(株)工場新築工事", "trade": "コンクリート二次製品", "amount": 5000000, "start": "2026-03-20", "end": "2026-12-20", "supplier": "", "memo": ""}, {"id": 12, "status": "見積提出中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設㈱", "name": "東海澱粉(株)静岡工場新築工事", "trade": "コンクリート二次製品", "amount": 60000000, "start": "", "end": "", "supplier": "", "memo": ""}, {"id": 13, "status": "納入中", "salesRep": "益田 桂志", "fieldRep": "", "client": "コスモ建設㈱", "name": "クスリのアオキ大東町店", "trade": "生コンクリート", "amount": 10000000, "start": "", "end": "", "supplier": "", "memo": "下請:ｷｰｽﾄﾝ(三谷商事=ﾚｷﾞｭﾗｰ商社)\n商流受注"}, {"id": 14, "status": "納入中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設㈱", "name": "掛川市上西郷方ノ橋宅地造成", "trade": "コンクリート二次製品", "amount": 27000000, "start": "2025-11-04", "end": "", "supplier": "", "memo": ""}, {"id": 15, "status": "見積提出中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設㈱", "name": "ｺｰﾅﾝPRO中川四女子店新築工事", "trade": "コンクリート二次製品", "amount": 8500000, "start": "", "end": "", "supplier": "", "memo": ""}, {"id": 16, "status": "見積提出中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設㈱", "name": "ﾊﾟﾅｿﾆｯｸ静岡工場外構工事(袋井市)", "trade": "コンクリート二次製品", "amount": 62000000, "start": "", "end": "", "supplier": "", "memo": ""}, {"id": 17, "status": "納入中", "salesRep": "益田 桂志", "fieldRep": "", "client": "戸塚建設㈱", "name": "令和7年度治山(防災林造成)浜川新田2工事", "trade": "砕石", "amount": 15000000, "start": "", "end": "", "supplier": "", "memo": ""}, {"id": 18, "status": "納入中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設㈱", "name": "ﾄﾞﾗｯｸﾞｺｽﾓｽ島田商高前店新築工事", "trade": "コンクリート二次製品", "amount": 12000000, "start": "", "end": "", "supplier": "", "memo": ""}, {"id": 19, "status": "納入中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設", "name": "結縁寺造成工事", "trade": "コンクリート二次製品", "amount": 20000000, "start": "2025-11-26", "end": "2026-03-26", "supplier": "", "memo": ""}, {"id": 20, "status": "納入中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設㈱", "name": "鈴与袋井物流4号外構及び車路整備工事", "trade": "コンクリート二次製品", "amount": 17060670, "start": "2025-11-03", "end": "2026-03-26", "supplier": "", "memo": ""}, {"id": 21, "status": "見積提出中", "salesRep": "益田 桂志", "fieldRep": "", "client": "南部建設㈱", "name": "多摩化学", "trade": "コンクリート二次製品", "amount": 25000000, "start": "", "end": "", "supplier": "", "memo": ""}, {"id": 22, "status": "決定", "salesRep": "青島 秀和", "fieldRep": "", "client": "㈱ヨシオ", "name": "(仮称)㈱富士製作所 新工場 新築工事", "trade": "生コンクリート", "amount": 32677400, "start": "", "end": "", "supplier": "㈱黒﨑", "memo": "･全体数量:1,373m3 ･出荷工場:高田建材 ･商流:高田建材→稲葉商店→黒﨑→丸紅→ﾖｼｵ ･仕入単価:￥23,300/m3 ･販売単価:￥23,800/m3 ･粗利:￥500/m3"}, {"id": 23, "status": "決定", "salesRep": "青島 秀和", "fieldRep": "", "client": "㈱ヨシオ", "name": "ホンダカーズ静岡U-select沼津東 建替工事", "trade": "生コンクリート", "amount": 6664000, "start": "", "end": "", "supplier": "㈱黒﨑", "memo": "･全体数量:280m3 ･出荷工場:東宏生ｺﾝ ･商流:東宏生ｺﾝ→稲葉商店→黒﨑→丸紅→ﾖｼｵ ･仕入単価:￥23,300/m3 ･販売単価:￥23,800/m3 ･粗利:￥500/m3"}, {"id": 24, "status": "納入中", "salesRep": "青島 秀和", "fieldRep": "", "client": "㈱ヨシオ", "name": "(仮称)小さなお葬式沼津下香貫ホール新築工事", "trade": "生コンクリート", "amount": 1190000, "start": "2026-01-05", "end": "2026-05-25", "supplier": "㈱黒﨑", "memo": "･全体数量:50m3 ･出荷工場:東宏生ｺﾝ ･商流:東宏生ｺﾝ→稲葉商店→黒﨑→丸紅→ﾖｼｵ ･仕入単価:￥23,300/m3 ･販売単価:￥23,800/m3 ･粗利:￥500/m3"}, {"id": 25, "status": "納入中", "salesRep": "青島 秀和", "fieldRep": "", "client": "㈱ヨシオ", "name": "(仮称)小さなお葬式沼津岡宮ホール新築工事", "trade": "生コンクリート", "amount": 952000, "start": "2026-01-05", "end": "2026-06-08", "supplier": "㈱黒﨑", "memo": "･全体数量:40m3 ･出荷工場:東宏生ｺﾝ ･商流:東宏生ｺﾝ→稲葉商店→黒﨑→丸紅→ﾖｼｵ ･仕入単価:￥23,300/m3 ･販売単価:￥23,800/m3 ･粗利:￥500/m3"}, {"id": 26, "status": "納入中", "salesRep": "青島 秀和", "fieldRep": "", "client": "㈱ヨシオ", "name": "(仮称)パルモ葬祭かぞくホール堀越新築工事", "trade": "生コンクリート", "amount": 1373400, "start": "2026-01-14", "end": "2026-06-30", "supplier": "㈱黒﨑", "memo": "･全体数量:63m3 ･出荷工場:浜松生ｺﾝ ･商流:浜松生ｺﾝ→黒﨑→丸紅→ﾖｼｵ ･仕入単価:￥21,400/m3 ･販売単価:￥21,800/m3 ･粗利:￥400/m3"}, {"id": 27, "status": "決定", "salesRep": "青島 秀和", "fieldRep": "", "client": "平井工業㈱", "name": "岡部町中間処理施設建築工事", "trade": "生コンクリート", "amount": 10100000, "start": "2026-04-01", "end": "2026-08-31", "supplier": "㈱黒﨑", "memo": "??出荷工場 : 黒﨑  ??商流 : 黒﨑 → 丸紅 → 稲葉商店  ??全体数量 : 500m3  ??仕入単価 : 20,000/m3  ??販売単価 : ￥20,200/m3  ??粗利 : ￥200"}, {"id": 28, "status": "納入中", "salesRep": "青島 秀和", "fieldRep": "", "client": "㈱若杉組 御前崎支店", "name": "令和5年度県単治山(施設等管理)浜川新田工事", "trade": "その他材料", "amount": 48000000, "start": "", "end": "", "supplier": "", "memo": "??角材、鉄線、土嚢 他 計23点"}, {"id": 29, "status": "営業中", "salesRep": "青島 秀和", "fieldRep": "", "client": "相良建設㈱", "name": "令和7年度御前崎港海岸津波対策緊急工事(胸壁嵩上工7工区)", "trade": "砕石", "amount": 9800000, "start": "", "end": "", "supplier": "", "memo": ""}, {"id": 30, "status": "納入中", "salesRep": "青島 秀和", "fieldRep": "", "client": "㈱鈴木土建", "name": "令和7年度大井川広域水道用水供給事業(榛南統合)右岸送水管御前崎大江線布設工事(第4工区)", "trade": "その他材料", "amount": 9500000, "start": "2025-11-01", "end": "2025-12-31", "supplier": "(株) 紅建通商", "memo": "骨材 (再生砂・粒調砕石M-30)"}];
 
+/* ===== マスタ ===== */
+const SALES = ["山崎 大介","川井 大輔","益田 桂志","鈴木 悠仁","青島 秀和"];
+const FIELDS = ["小林 徹也","小林 大介","中川"];
+const KUBUN = ["土木公共工事","土木民間工事","商社工事"];
+const TRADE_KOJI = ["とび土木コンクリート工事","舗装工事","造成工事","外構工事","建築工事一式","解体工事","公共下請工事","その他工事"];
+const TRADE_ZAI = ["生コンクリート","コンクリート二次製品","砕石","その他材料"];
+const STATUS = ["営業中","見積提出中","決定","施工予定","施工中","完了","失注"];
+const SUPPLIER = ["㈱黒﨑","(株) 紅建通商"];
+
 /* ===== 列定義（テンプレ準拠） ===== */
 const COLS_KOJI = [
-  { key:"status",   label:"ステータス" },
-  { key:"salesRep", label:"営業担当者" },
-  { key:"fieldRep", label:"工事担当者" },
-  { key:"client",   label:"発注者" },
-  { key:"name",     label:"現場名" },
-  { key:"kubun",    label:"受注区分" },
-  { key:"trade",    label:"工種" },
-  { key:"amount",   label:"見積金額", money:true },
-  { key:"start",    label:"自" },
-  { key:"end",      label:"至" },
-  { key:"vendor",   label:"施工予定業者" },
-  { key:"memo",     label:"打合せ事項" },
+  {key:"status",label:"ステータス"},{key:"salesRep",label:"営業担当者"},{key:"fieldRep",label:"工事担当者"},
+  {key:"client",label:"発注者"},{key:"name",label:"現場名"},{key:"kubun",label:"受注区分"},{key:"trade",label:"工種"},
+  {key:"amount",label:"見積金額",money:true},{key:"start",label:"自"},{key:"end",label:"至"},
+  {key:"vendor",label:"施工予定業者"},{key:"memo",label:"打合せ事項"},
 ];
 const COLS_ZAIRYO = [
-  { key:"status",   label:"ステータス" },
-  { key:"salesRep", label:"営業担当者" },
-  { key:"fieldRep", label:"工事担当者" },
-  { key:"client",   label:"発注者" },
-  { key:"name",     label:"現場名" },
-  { key:"trade",    label:"工種" },
-  { key:"amount",   label:"見積金額", money:true },
-  { key:"start",    label:"自" },
-  { key:"end",      label:"至" },
-  { key:"supplier", label:"仕入業者" },
-  { key:"memo",     label:"打合せ事項" },
+  {key:"status",label:"ステータス"},{key:"salesRep",label:"営業担当者"},{key:"fieldRep",label:"工事担当者"},
+  {key:"client",label:"発注者"},{key:"name",label:"現場名"},{key:"trade",label:"工種"},
+  {key:"amount",label:"見積金額",money:true},{key:"start",label:"自"},{key:"end",label:"至"},
+  {key:"supplier",label:"仕入業者"},{key:"memo",label:"打合せ事項"},
 ];
-
-const TABS = {
-  koji:   { label:"工事", data:KOJI,    cols:COLS_KOJI,   facets:["status","salesRep","kubun"], sheet:"案件一覧（工事）", file:"案件一覧_工事" },
-  zairyo: { label:"材料", data:ZAIRYO,  cols:COLS_ZAIRYO, facets:["status","salesRep","trade"], sheet:"案件一覧（材料）", file:"案件一覧_材料" },
+const META = {
+  koji:{label:"工事",cols:COLS_KOJI,facets:["status","salesRep","kubun"],sheet:"案件一覧（工事）",file:"案件一覧_工事"},
+  zairyo:{label:"材料",cols:COLS_ZAIRYO,facets:["status","salesRep","trade"],sheet:"案件一覧（材料）",file:"案件一覧_材料"},
 };
+const FACET_LABEL={status:"ステータス",salesRep:"営業担当者",kubun:"受注区分",trade:"工種"};
 
-const FACET_LABEL = { status:"ステータス", salesRep:"営業担当者", kubun:"受注区分", trade:"工種" };
+const yen=(v)=>v?"¥"+Number(v).toLocaleString("ja-JP"):"";
+const EMPTY="(未設定)";
+const uniq=(data,key)=>{const s=new Set(data.map(r=>r[key]||EMPTY));return [...s].sort((a,b)=>a===EMPTY?1:b===EMPTY?-1:a.localeCompare(b,"ja"));};
+const badgeClass=(s)=>({"営業中":"b-sky","見積提出中":"b-amber","施工中":"b-emerald","納入中":"b-emerald","施工予定":"b-violet","決定":"b-blue","完了":"b-slate","失注":"b-rose"}[s]||"b-slate");
 
-/* ===== ヘルパー ===== */
-const yen = (v) => v ? "¥" + Number(v).toLocaleString("ja-JP") : "";
-const EMPTY = "(未設定)";
-const uniq = (data, key) => {
-  const s = new Set(data.map(r => r[key] || EMPTY));
-  return [...s].sort((a,b)=> a===EMPTY?1 : b===EMPTY?-1 : a.localeCompare(b,"ja"));
-};
-const badgeClass = (s) => ({
-  "営業中":"b-sky","見積提出中":"b-amber","施工中":"b-emerald","納入中":"b-emerald",
-  "施工予定":"b-violet","決定":"b-blue","完了":"b-slate","失注":"b-rose",
-}[s] || "b-slate");
-
-/* ===== Excel生成 ===== */
-function exportExcel({ data, cols, unit, totalRow, sheet, file }) {
-  const unitTag = (c) => c.money ? (unit==="man" ? "（万円）" : "（円）") : "";
-  const header = cols.map(c => c.label + unitTag(c));
-  const cell = (r,c) => {
-    if (!c.money) return r[c.key] || "";
-    const n = Number(r[c.key]||0);
-    return unit==="man" ? Math.round(n/10000) : n;
-  };
-  const aoa = [header, ...data.map(r => cols.map(c => cell(r,c)))];
-  if (totalRow) {
-    aoa.push(cols.map((c,i)=> c.money ? data.reduce((a,r)=>a+(unit==="man"?Math.round(Number(r[c.key]||0)/10000):Number(r[c.key]||0)),0) : (i===0?"合計":"")));
-  }
-  const ws = XLSX.utils.aoa_to_sheet(aoa);
-  ws["!cols"] = cols.map(c => ({ wch: c.key==="name"?34 : c.key==="memo"?30 : c.key==="client"||c.key==="vendor"||c.key==="supplier"?20 : c.money?14 : 12 }));
-  const range = XLSX.utils.decode_range(ws["!ref"]);
-  cols.forEach((c,ci)=>{
-    if(!c.money) return;
-    for(let ri=1; ri<=range.e.r; ri++){
-      const addr = XLSX.utils.encode_cell({r:ri,c:ci});
-      if(ws[addr] && typeof ws[addr].v==="number") ws[addr].z = "#,##0";
-    }
-  });
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, sheet);
-  const d = new Date();
-  const ymd = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`;
-  XLSX.writeFile(wb, `${file}_${ymd}.xlsx`);
+/* ===== Excel生成（裸の表：条件設定つき） ===== */
+function exportExcel({data,cols,unit,totalRow,sheet,file}){
+  const tag=(c)=>c.money?(unit==="man"?"（万円）":"（円）"):"";
+  const header=cols.map(c=>c.label+tag(c));
+  const cell=(r,c)=>{if(!c.money)return r[c.key]||"";const n=Number(r[c.key]||0);return unit==="man"?Math.round(n/10000):n;};
+  const aoa=[header,...data.map(r=>cols.map(c=>cell(r,c)))];
+  if(totalRow)aoa.push(cols.map((c,i)=>c.money?data.reduce((a,r)=>a+(unit==="man"?Math.round(Number(r[c.key]||0)/10000):Number(r[c.key]||0)),0):(i===0?"合計":"")));
+  const ws=XLSX.utils.aoa_to_sheet(aoa);
+  ws["!cols"]=cols.map(c=>({wch:c.key==="name"?34:c.key==="memo"?30:["client","vendor","supplier"].includes(c.key)?20:c.money?14:12}));
+  const range=XLSX.utils.decode_range(ws["!ref"]);
+  cols.forEach((c,ci)=>{if(!c.money)return;for(let ri=1;ri<=range.e.r;ri++){const a=XLSX.utils.encode_cell({r:ri,c:ci});if(ws[a]&&typeof ws[a].v==="number")ws[a].z="#,##0";}});
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,sheet);
+  const d=new Date();const ymd=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`;
+  XLSX.writeFile(wb,`${file}_${ymd}.xlsx`);
 }
 
-/* ===== 出力条件モーダル ===== */
-function ExportModal({ tab, onClose }) {
-  const cfg = TABS[tab];
-  const [unit, setUnit] = useState("yen");
-  const [totalRow, setTotalRow] = useState(false);
-  const [colKeys, setColKeys] = useState(cfg.cols.map(c=>c.key));
-  const [sel, setSel] = useState(() => {
-    const o = {};
-    cfg.facets.forEach(f => { o[f] = Object.fromEntries(uniq(cfg.data,f).map(v=>[v,true])); });
-    return o;
-  });
-
-  const rows = useMemo(() => cfg.data.filter(r =>
-    cfg.facets.every(f => sel[f][r[f]||EMPTY])
-  ), [sel]);
-
-  const outCols = cfg.cols.filter(c => colKeys.includes(c.key));
-  const toggleCol = (k) => setColKeys(p => p.includes(k) ? p.filter(x=>x!==k) : [...p,k]);
-  const toggleFacet = (f,v) => setSel(p => ({...p, [f]: {...p[f], [v]: !p[f][v]}}));
-
-  const run = () => {
-    if (!rows.length || !outCols.length) return;
-    exportExcel({ data:rows, cols:outCols, unit, totalRow, sheet:cfg.sheet, file:cfg.file });
-    onClose();
-  };
-
+function ExportModal({fmt,data,onClose}){
+  const cfg=META[fmt];
+  const [unit,setUnit]=useState("yen");
+  const [totalRow,setTotalRow]=useState(false);
+  const [colKeys,setColKeys]=useState(cfg.cols.map(c=>c.key));
+  const [sel,setSel]=useState(()=>{const o={};cfg.facets.forEach(f=>{o[f]=Object.fromEntries(uniq(data,f).map(v=>[v,true]));});return o;});
+  const rows=useMemo(()=>data.filter(r=>cfg.facets.every(f=>sel[f][r[f]||EMPTY])),[sel,data]);
+  const outCols=cfg.cols.filter(c=>colKeys.includes(c.key));
+  const toggleCol=(k)=>setColKeys(p=>p.includes(k)?p.filter(x=>x!==k):[...p,k]);
+  const toggleFacet=(f,v)=>setSel(p=>({...p,[f]:{...p[f],[v]:!p[f][v]}}));
+  const run=()=>{if(!rows.length||!outCols.length)return;exportExcel({data:rows,cols:outCols,unit,totalRow,sheet:cfg.sheet,file:cfg.file});onClose();};
   return (
     <div className="overlay" onClick={onClose}>
       <div className="modal" onClick={e=>e.stopPropagation()}>
-        <div className="modal-head">
-          <h3>📊 Excel出力（{cfg.label}）— 条件設定</h3>
-          <button className="x" onClick={onClose}>×</button>
-        </div>
+        <div className="modal-head"><h3>📊 Excel出力（{cfg.label}）— 条件設定</h3><button className="x" onClick={onClose}>×</button></div>
         <div className="modal-body">
           <section>
             <div className="sec-title">出力対象の絞り込み</div>
             <div className="facets">
-              {cfg.facets.map(f => (
-                <div className="facet" key={f}>
-                  <h5>{FACET_LABEL[f]}</h5>
-                  {uniq(cfg.data,f).map(v => (
-                    <label className="chk trunc" key={v}>
-                      <input type="checkbox" checked={!!sel[f][v]} onChange={()=>toggleFacet(f,v)} />
-                      <span>{v}</span>
-                    </label>
-                  ))}
+              {cfg.facets.map(f=>(
+                <div className="facet" key={f}><h5>{FACET_LABEL[f]}</h5>
+                  {uniq(data,f).map(v=>(<label className="chk trunc" key={v}><input type="checkbox" checked={!!sel[f][v]} onChange={()=>toggleFacet(f,v)} /><span>{v}</span></label>))}
                 </div>
               ))}
             </div>
           </section>
-
           <section>
-            <div className="sec-head">
-              <div className="sec-title" style={{margin:0}}>出力する列</div>
-              <div style={{display:"flex",gap:12}}>
-                <button className="link" onClick={()=>setColKeys(cfg.cols.map(c=>c.key))}>全選択</button>
-                <button className="link gray" onClick={()=>setColKeys([])}>全解除</button>
-              </div>
+            <div className="sec-head"><div className="sec-title" style={{margin:0}}>出力する列</div>
+              <div style={{display:"flex",gap:12}}><button className="link" onClick={()=>setColKeys(cfg.cols.map(c=>c.key))}>全選択</button><button className="link gray" onClick={()=>setColKeys([])}>全解除</button></div>
             </div>
-            <div className="col-grid">
-              {cfg.cols.map(c => (
-                <label className="chk" key={c.key}>
-                  <input type="checkbox" checked={colKeys.includes(c.key)} onChange={()=>toggleCol(c.key)} />
-                  <span>{c.label}</span>
-                </label>
-              ))}
-            </div>
+            <div className="col-grid">{cfg.cols.map(c=>(<label className="chk" key={c.key}><input type="checkbox" checked={colKeys.includes(c.key)} onChange={()=>toggleCol(c.key)} /><span>{c.label}</span></label>))}</div>
           </section>
-
           <section className="opts">
-            <div>
-              <h5 style={{margin:"0 0 6px",fontSize:11,fontWeight:400,color:"var(--muted)"}}>金額の単位</h5>
-              <div className="seg">
-                <label className="radio"><input type="radio" name="u" checked={unit==="yen"} onChange={()=>setUnit("yen")} />円</label>
-                <label className="radio"><input type="radio" name="u" checked={unit==="man"} onChange={()=>setUnit("man")} />万円</label>
-              </div>
+            <div><h5 style={{margin:"0 0 6px",fontSize:11,fontWeight:400,color:"var(--muted)"}}>金額の単位</h5>
+              <div className="seg"><label className="radio"><input type="radio" name="u" checked={unit==="yen"} onChange={()=>setUnit("yen")} />円</label><label className="radio"><input type="radio" name="u" checked={unit==="man"} onChange={()=>setUnit("man")} />万円</label></div>
             </div>
             <label className="chk"><input type="checkbox" checked={totalRow} onChange={()=>setTotalRow(v=>!v)} /><span>合計行を追加</span></label>
           </section>
         </div>
         <div className="modal-foot">
-          <span className="foot-info">該当 <b>{rows.length}</b> 件{outCols.length===0 && <span className="warn">列を1つ以上選択</span>}</span>
-          <div className="foot-btns">
-            <button className="btn btn-ghost" onClick={onClose}>キャンセル</button>
-            <button className="btn btn-excel" disabled={!rows.length || !outCols.length} onClick={run}>⬇ Excelで出力</button>
-          </div>
+          <span className="foot-info">該当 <b>{rows.length}</b> 件{outCols.length===0&&<span className="warn">列を1つ以上選択</span>}</span>
+          <div className="foot-btns"><button className="btn btn-ghost" onClick={onClose}>キャンセル</button><button className="btn btn-excel" disabled={!rows.length||!outCols.length} onClick={run}>⬇ Excelで出力</button></div>
         </div>
       </div>
     </div>
   );
 }
 
-/* ===== 案件テーブル ===== */
-function ProjectTable({ tab, search }) {
-  const cfg = TABS[tab];
-  const rows = useMemo(() => {
-    const q = search.trim();
-    if (!q) return cfg.data;
-    return cfg.data.filter(r => (r.name+r.client+r.salesRep).includes(q));
-  }, [tab, search]);
-
+/* ===== 一覧テーブル ===== */
+function ProjectTable({fmt,data,search}){
+  const cols=META[fmt].cols;
+  const rows=useMemo(()=>{const q=search.trim();return q?data.filter(r=>(r.name+r.client+r.salesRep).includes(q)):data;},[data,search]);
   return (
     <div className="card">
-      <div className="tablewrap">
-        <table>
-          <thead><tr>{cfg.cols.map(c => <th key={c.key}>{c.label}</th>)}</tr></thead>
-          <tbody>
-            {rows.map(r => (
-              <tr key={r.id}>
-                {cfg.cols.map(c => {
-                  if (c.key==="status") return <td key={c.key}><span className={"badge "+badgeClass(r.status)}>{r.status}</span></td>;
-                  if (c.money) return <td key={c.key} className="num">{yen(r[c.key])}</td>;
-                  if (c.key==="name") return <td key={c.key} className="name" title={r.name}>{r.name}</td>;
-                  if (c.key==="memo") return <td key={c.key} className="memo" title={r.memo}>{r.memo}</td>;
-                  return <td key={c.key}>{r[c.key]}</td>;
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="tablewrap"><table>
+        <thead><tr>{cols.map(c=><th key={c.key}>{c.label}</th>)}</tr></thead>
+        <tbody>{rows.map(r=>(
+          <tr key={r.id}>{cols.map(c=>{
+            if(c.key==="status")return <td key={c.key}><span className={"badge "+badgeClass(r.status)}>{r.status}</span>{r._new&&<span className="new-flag">NEW</span>}</td>;
+            if(c.money)return <td key={c.key} className="num">{yen(r[c.key])}</td>;
+            if(c.key==="name")return <td key={c.key} className="name" title={r.name}>{r.name}</td>;
+            if(c.key==="memo")return <td key={c.key} className="memo" title={r.memo}>{r.memo}</td>;
+            return <td key={c.key}>{r[c.key]}</td>;
+          })}</tr>
+        ))}</tbody>
+      </table></div>
+      <div className="count">{rows.length} 件 / 全 {data.length} 件</div>
+    </div>
+  );
+}
+
+/* ===== 一覧ビュー ===== */
+function ListView({store,fmt,setFmt,onNew}){
+  const [search,setSearch]=useState("");
+  const [showExport,setShowExport]=useState(false);
+  return (
+    <>
+      <div className="tabs">{Object.entries(META).map(([k,v])=>(<button key={k} className={"tab"+(fmt===k?" active":"")} onClick={()=>setFmt(k)}>{v.label}</button>))}</div>
+      <div className="toolbar">
+        <div className="search"><span style={{color:"var(--muted)"}}>🔍</span><input placeholder="現場名・発注者・担当者で検索" value={search} onChange={e=>setSearch(e.target.value)} /></div>
+        <div className="spacer"></div>
+        <button className="btn btn-excel" onClick={()=>setShowExport(true)}>⬇ Excelで出力</button>
+        <button className="btn btn-primary" onClick={onNew}>＋ 新規案件</button>
       </div>
-      <div className="count">{rows.length} 件 / 全 {cfg.data.length} 件</div>
+      <ProjectTable fmt={fmt} data={store[fmt]} search={search} />
+      {showExport&&<ExportModal fmt={fmt} data={store[fmt]} onClose={()=>setShowExport(false)} />}
+    </>
+  );
+}
+
+/* ===== 新規登録フォーム（B：CraftBank寄せ） ===== */
+function RadioGroup({name,value,onChange,options}){
+  return <div className="radios">{options.map(o=>(<label key={o} className={"radio-b"+(value===o?" sel":"")}><input type="radio" name={name} checked={value===o} onChange={()=>onChange(o)} />{o}</label>))}</div>;
+}
+function FRow({label,req,children}){
+  return <div className="frow"><div className="lab">{label}{req===true&&<span className="req">必須</span>}{req===false&&<span className="optf">任意</span>}</div><div className="fld">{children}</div></div>;
+}
+function NewProjectForm({initialFmt,onSubmit,onCancel}){
+  const [fmt,setFmt]=useState(initialFmt);
+  const isKoji=fmt==="koji";
+  const [f,setF]=useState({status:"営業中",salesRep:"",fieldRep:"",client:"",name:"",kubun:"商社工事",trade:"",amount:"",start:"",end:"",vendor:"",supplier:"",memo:""});
+  const [over500,setOver500]=useState(false);
+  const set=(k)=>(e)=>setF(p=>({...p,[k]:e.target.value}));
+  const submit=()=>{
+    if(!f.status||!f.salesRep||!f.client||!f.name){alert("必須項目（ステータス・営業担当者・発注者・現場名）を入力してください");return;}
+    const rec={status:f.status,salesRep:f.salesRep,fieldRep:f.fieldRep,client:f.client,name:f.name,trade:f.trade,
+      amount:Number(String(f.amount).replace(/[^0-9]/g,""))||0,start:f.start,end:f.end,memo:f.memo,_new:true};
+    if(isKoji){rec.kubun=f.kubun;rec.vendor=f.vendor;}else{rec.supplier=f.supplier;}
+    onSubmit(fmt,rec);
+  };
+  return (
+    <div>
+      <div className="seg2">
+        <button className={isKoji?"on":""} onClick={()=>setFmt("koji")}>工事</button>
+        <button className={!isKoji?"on":""} onClick={()=>setFmt("zairyo")}>材料</button>
+      </div>
+
+      <div className="card">
+        <div className="card-h">基本情報</div>
+        <div className="form">
+          <FRow label="ステータス" req={true}><select className="ctrl half" value={f.status} onChange={set("status")}>{STATUS.map(s=><option key={s}>{s}</option>)}</select></FRow>
+          <FRow label="営業担当者" req={true}><select className="ctrl half" value={f.salesRep} onChange={set("salesRep")}><option value=""></option>{SALES.map(s=><option key={s}>{s}</option>)}</select></FRow>
+          <FRow label="工事担当者" req={false}><select className="ctrl half" value={f.fieldRep} onChange={set("fieldRep")}><option value=""></option>{FIELDS.map(s=><option key={s}>{s}</option>)}</select></FRow>
+          <FRow label="発注者" req={true}><input className="ctrl" value={f.client} onChange={set("client")} placeholder="顧客/外注を選択 または 新規作成" /><span className="hint">＋ 新しい顧客/外注などを作成</span></FRow>
+          <FRow label="現場名" req={true}><input className="ctrl" value={f.name} onChange={set("name")} placeholder="現場名" /></FRow>
+          {isKoji&&<FRow label="受注区分" req={true}><RadioGroup name="kubun" value={f.kubun} onChange={v=>setF(p=>({...p,kubun:v}))} options={KUBUN} /></FRow>}
+          <FRow label="工種" req={false}><select className="ctrl half" value={f.trade} onChange={set("trade")}><option value=""></option>{(isKoji?TRADE_KOJI:TRADE_ZAI).map(t=><option key={t}>{t}</option>)}</select></FRow>
+          <FRow label="金額区分" req={false}><label className="check"><input type="checkbox" checked={over500} onChange={e=>setOver500(e.target.checked)} />500万以上</label><span className="hint">チェックすると詳細項目（指名番号・住所など）が入力対象になります</span></FRow>
+          <FRow label="見積金額" req={false}><div className="suffix"><input className="ctrl short" value={f.amount} onChange={set("amount")} placeholder="0" /><span className="u">円（税抜）</span></div></FRow>
+          <FRow label={isKoji?"施工期間":"納入時期"} req={false}><div className="range"><input className="ctrl short" type="date" value={f.start} onChange={set("start")} /><span>〜</span><input className="ctrl short" type="date" value={f.end} onChange={set("end")} /></div></FRow>
+          {isKoji
+            ? <FRow label="施工予定業者" req={false}><input className="ctrl half" value={f.vendor} onChange={set("vendor")} placeholder="施工予定業者" /></FRow>
+            : <FRow label="仕入業者" req={false}><select className="ctrl half" value={f.supplier} onChange={set("supplier")}><option value=""></option>{SUPPLIER.map(s=><option key={s}>{s}</option>)}</select></FRow>}
+          <FRow label="打合せ事項" req={false}><textarea className="ctrl" value={f.memo} onChange={set("memo")} placeholder="打合せ事項"></textarea></FRow>
+        </div>
+      </div>
+
+      <div className="card" style={{opacity:over500?1:.5}}>
+        <div className="card-h">詳細情報{!over500&&"（500万以上の案件のみ入力）"}</div>
+        <div className="form">
+          <FRow label="指名番号" req={false}><input className="ctrl short" placeholder="指名番号" disabled={!over500} /><span className="hint">※区分名称が自動で入力されます</span></FRow>
+          <FRow label="郵便番号" req={false}><input className="ctrl short" placeholder="000-0000" disabled={!over500} /><span className="hint">市区町村が自動で入力されます</span></FRow>
+          <FRow label="都道府県" req={false}><select className="ctrl half" disabled={!over500}><option value=""></option><option>静岡県</option><option>愛知県</option></select></FRow>
+          <FRow label="市区町村" req={false}><input className="ctrl half" placeholder="市区町村" disabled={!over500} /></FRow>
+          <FRow label="その他住所" req={false}><input className="ctrl" placeholder="その他住所" disabled={!over500} /></FRow>
+          <FRow label="座標" req={false}><input className="ctrl half" placeholder="緯度, 経度" disabled={!over500} /></FRow>
+          <FRow label="備考" req={false}><textarea className="ctrl" placeholder="備考" disabled={!over500}></textarea></FRow>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-h">カレンダー連携</div>
+        <div className="form">
+          <FRow label="スケジュール" req={false}><input className="ctrl" placeholder="スケジュールタイトル" /></FRow>
+          <FRow label="期間/終日" req={false}><div className="radios"><label className="radio-b sel"><input type="radio" name="cal" defaultChecked />期間指定</label><label className="radio-b"><input type="radio" name="cal" />終日</label></div></FRow>
+          <FRow label="担当者割当" req={false}><input className="ctrl half" placeholder="スケジュール担当者" /></FRow>
+          <FRow label="必要人数" req={false}><div className="radios"><label className="radio-b sel"><input type="radio" name="ninzu" defaultChecked />最小〜最大で指定</label><label className="radio-b"><input type="radio" name="ninzu" />人数を指定</label></div></FRow>
+        </div>
+        <div className="cal-note">📅 ＋ スケジュールを追加（複数登録可）</div>
+      </div>
+
+      <div className="foot-r">
+        <button className="btn btn-lg btn-ghost" onClick={onCancel}>キャンセル</button>
+        <button className="btn btn-lg btn-save" onClick={submit}>登録する</button>
+      </div>
     </div>
   );
 }
 
 /* ===== シェル ===== */
-function Sidebar() {
-  const items = [
-    { label:"案件管理", active:true },
-    { label:"日報・勤怠", soon:true },
-    { label:"日報フォーマット出力", soon:true },
-  ];
-  return (
-    <aside className="sidebar">
-      <div className="brand">
-        <div className="logo">丸</div>
-        <div><div className="tt">現場管理</div><div className="ss">丸紅 土木部</div></div>
-      </div>
-      <nav className="nav">
-        {items.map(it => (
-          <button key={it.label} className={"side-item"+(it.active?" active":"")+(it.soon?" soon":"")}>
-            <span className="dot"></span>{it.label}
-            {it.soon && <span className="tag">準備中</span>}
-          </button>
-        ))}
-      </nav>
-      <div className="side-foot"><div className="avatar">玲</div>池田 玲</div>
-    </aside>
-  );
-}
+function App(){
+  const [view,setView]=useState("list");
+  const [fmt,setFmt]=useState("koji");
+  const [store,setStore]=useState({koji:KOJI,zairyo:ZAIRYO});
 
-function App() {
-  const [tab, setTab] = useState("koji");
-  const [search, setSearch] = useState("");
-  const [showExport, setShowExport] = useState(false);
+  const addRecord=(targetFmt,rec)=>{
+    setStore(prev=>{
+      const list=prev[targetFmt];
+      const id=Math.max(0,...list.map(r=>r.id||0))+1;
+      return {...prev,[targetFmt]:[{...rec,id},...list]};
+    });
+    setFmt(targetFmt);
+    setView("list");
+  };
 
   return (
     <div className="app">
-      <Sidebar />
+      <aside className="sidebar">
+        <div className="brand"><div className="logo">丸</div><div><div className="tt">現場管理</div><div className="ss">丸紅 土木部</div></div></div>
+        <nav className="nav">
+          <button className="side-item active"><span className="dot"></span>案件管理</button>
+          <button className="side-item soon"><span className="dot"></span>日報・勤怠<span className="tag">準備中</span></button>
+          <button className="side-item soon"><span className="dot"></span>日報フォーマット出力<span className="tag">準備中</span></button>
+        </nav>
+        <div className="side-foot"><div className="avatar">玲</div>池田 玲</div>
+      </aside>
       <div className="main">
         <div className="topbar">
-          <h1>案件管理</h1>
-          <span style={{fontSize:12,color:"var(--muted)"}}>2026年6月</span>
+          <h1>{view==="list"?"案件管理":"新規案件登録"}</h1>
+          {view==="list"
+            ? <span className="crumb">2026年6月</span>
+            : <span className="crumb"><a onClick={()=>setView("list")}>案件管理</a> ＞ 新規案件作成</span>}
         </div>
-        <div className="content">
-          <div className="tabs">
-            {Object.entries(TABS).map(([k,v]) => (
-              <button key={k} className={"tab"+(tab===k?" active":"")} onClick={()=>setTab(k)}>{v.label}</button>
-            ))}
-          </div>
-          <div className="toolbar">
-            <div className="search">
-              <span style={{color:"var(--muted)"}}>🔍</span>
-              <input placeholder="現場名・発注者・担当者で検索" value={search} onChange={e=>setSearch(e.target.value)} />
-            </div>
-            <div className="spacer"></div>
-            <button className="btn btn-excel" onClick={()=>setShowExport(true)}>⬇ Excelで出力</button>
-            <button className="btn btn-primary">＋ 新規案件</button>
-          </div>
-          <ProjectTable tab={tab} search={search} />
+        <div className={"content"+(view==="new"?" narrow":"")}>
+          {view==="list"
+            ? <ListView store={store} fmt={fmt} setFmt={setFmt} onNew={()=>setView("new")} />
+            : <NewProjectForm initialFmt={fmt} onSubmit={addRecord} onCancel={()=>setView("list")} />}
         </div>
       </div>
-      {showExport && <ExportModal tab={tab} onClose={()=>setShowExport(false)} />}
     </div>
   );
 }
-
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 </script>
 </body>
