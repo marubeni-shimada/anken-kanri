@@ -335,17 +335,6 @@ function NewProjectForm({initialFmt,onSubmit,onCancel}){
         </div>
       </div>
 
-      <div className="card">
-        <div className="card-h">カレンダー連携</div>
-        <div className="form">
-          <FRow label="スケジュール" req={false}><input className="ctrl" placeholder="スケジュールタイトル" /></FRow>
-          <FRow label="期間/終日" req={false}><div className="radios"><label className="radio-b sel"><input type="radio" name="cal" defaultChecked />期間指定</label><label className="radio-b"><input type="radio" name="cal" />終日</label></div></FRow>
-          <FRow label="担当者割当" req={false}><input className="ctrl half" placeholder="スケジュール担当者" /></FRow>
-          <FRow label="必要人数" req={false}><div className="radios"><label className="radio-b sel"><input type="radio" name="ninzu" defaultChecked />最小〜最大で指定</label><label className="radio-b"><input type="radio" name="ninzu" />人数を指定</label></div></FRow>
-        </div>
-        <div className="cal-note">📅 ＋ スケジュールを追加（複数登録可）</div>
-      </div>
-
       <div className="foot-r">
         <button className="btn btn-lg btn-ghost" onClick={onCancel}>キャンセル</button>
         <button className="btn btn-lg btn-save" onClick={submit}>登録する</button>
